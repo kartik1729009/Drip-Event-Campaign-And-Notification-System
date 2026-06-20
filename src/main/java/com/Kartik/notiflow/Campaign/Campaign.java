@@ -45,6 +45,6 @@ public class Campaign {
     private String status;
     @CreationTimestamp
     private String createdAt;
-    @OneToMany(mappedBy = "Campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignInstance> campaignInstances;
 }

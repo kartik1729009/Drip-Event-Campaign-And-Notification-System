@@ -38,7 +38,7 @@ public class CampaignInstance {
     private long campaignInstanceId;
     @ManyToOne
     @JoinColumn(name = "campaignId")
-    private Campaign campaignId;
+    private Campaign campaign;
     private int sequenceOrder;
     private int offsetMin;
     private String campaignInstanceName;

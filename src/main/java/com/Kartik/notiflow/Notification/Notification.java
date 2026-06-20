@@ -12,9 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.nio.channels.Channel;
 import org.hibernate.annotations.CreationTimestamp;
-
+import com.Kartik.notiflow.Enum.Channel;
 import com.Kartik.notiflow.Client.Client;
 import com.Kartik.notiflow.Enum.DefinitionStatus;
 import com.Kartik.notiflow.MessageTemplate.MessageTemplate;
@@ -35,7 +34,7 @@ public class Notification {
     private Client client; 
     @ManyToOne
     @JoinColumn(name = "messageTemplateId")
-    private MessageTemplate messageTemplateId;
+    private MessageTemplate messageTemplate;
     @Enumerated(EnumType.STRING)
     private Channel channel;
     private String name;

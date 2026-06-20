@@ -31,19 +31,19 @@ public class DeliveryRecord {
     private long deliveryRecordId;
     @ManyToOne
     @JoinColumn(name = "clientId")
-    private Client clientId;
+    private Client client;
     @ManyToOne
     @JoinColumn(name = "campaignId")
-    private Campaign campaignId;
+    private Campaign campaign;
     @ManyToOne
     @JoinColumn(name = "campaignInstanceId")
-    private CampaignInstance campaignInstanceId;
+    private CampaignInstance campaignInstance;
     @ManyToOne
     @JoinColumn(name = "messageInstanceId")
-    private MessageInstance messageInstanceId;
+    private MessageInstance messageInstance;
     @ManyToOne
     @JoinColumn(name = "notificationId")
-    private Notification notificationId;
+    private Notification notification;
     // private long notificationDefinitionId;
     private long providerMessageId;
     private int retryCount;

@@ -11,9 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class ClientDto {
-    private long clientId;
+    private Long clientId;
     private String name;
+    private String userName;
     private String workspace;
     private String apiKey;
+    private String status;
     private String callbackUrl;
 }

@@ -1,5 +1,6 @@
 package com.Kartik.notiflow.MessageInstance;
-import java.nio.channels.Channel;
+
+import com.Kartik.notiflow.Enum.Channel;
 import org.hibernate.annotations.CreationTimestamp;
 import com.Kartik.notiflow.CampaignInstance.CampaignInstance;
 import com.Kartik.notiflow.Enum.DefinitionStatus;
@@ -34,7 +35,7 @@ public class MessageInstance {
     private CampaignInstance campaignInstance;
     @ManyToOne
     @JoinColumn(name = "messageTemplateId")
-    private MessageTemplate messageTemplateId;
+    private MessageTemplate messageTemplate;
     @Enumerated(EnumType.STRING)
     private Channel channel;
     @Enumerated(EnumType.STRING)

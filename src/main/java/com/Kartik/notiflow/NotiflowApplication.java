@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NotiflowApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Starting the server");
 		SpringApplication.run(NotiflowApplication.class, args);
 	}
 
