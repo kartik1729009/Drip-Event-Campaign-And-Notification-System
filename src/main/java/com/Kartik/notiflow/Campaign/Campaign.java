@@ -1,4 +1,7 @@
 package com.Kartik.notiflow.Campaign;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,12 +43,11 @@ public class Campaign {
     private String name;
     @NotBlank(message = "Description date can't be blank")
     private String description;
-    @CreationTimestamp
-    @NotBlank(message = "Start date can't be blank")
-    private String startDate;
+    @NotNull(message = "Start date cannot be null")
+    private LocalDate startDate;
     private String status;
     @CreationTimestamp
-    private String createdAt;
+    private LocalDateTime createdAt;
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignInstance> campaignInstances;
 }
