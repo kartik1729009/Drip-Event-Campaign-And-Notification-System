@@ -7,12 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.Kartik.notiflow.Client.Client;
-import com.Kartik.notiflow.Client.ClientRepository;
 import com.Kartik.notiflow.Common.Exception.BadRequestException;
 import com.Kartik.notiflow.Common.Exception.ConflictException;
 import com.Kartik.notiflow.Common.Response.ApiResponseHandler;
 import com.Kartik.notiflow.Common.Response.ResponseBuilder;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.UserAuth.UserAuthRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,14 +21,14 @@ import lombok.RequiredArgsConstructor;
 
 public class CampaignService {
     private final CampaignRepository campaignRepository;
-    private final ClientRepository clientRepository;
+    private final UserAuthRepository userAuthRepository;
     private final ModelMapper modelMapper;
 
     public ResponseEntity<ApiResponseHandler<Object>> createCampaign(@RequestBody CampaignDto campaign) {
         try {
             Campaign campaignEntity = modelMapper.map(campaign, Campaign.class);
             Long client = campaign.getClientId();
-            Client clientEntity = clientRepository.findById(client).orElseThrow(
+            UserAuth userAuth = userAuthRepository.findById(client).orElseThrow(
                     () -> new RuntimeException("Client not found with id: " + client));
             String isActive = clientEntity.getStatus();
             if (isActive.equals("inactive")) {

@@ -1,4 +1,5 @@
 package com.Kartik.notiflow.CampaignInstance;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,11 +9,14 @@ import com.Kartik.notiflow.Campaign.Campaign;
 import com.Kartik.notiflow.Enum.CampaignInstanceStatus;
 import com.Kartik.notiflow.Enum.TriggerType;
 import com.Kartik.notiflow.MessageInstance.MessageInstance;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,9 +40,14 @@ public class CampaignInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long campaignInstanceId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaignId")
-    private Campaign campaign;
+    private Campaign campaignId;
+    @JoinColumn(name = "workspaceId", nullable = false)
+    private WorkspaceAuth workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy")
+    private UserAuth createdBy;
     private int sequenceOrder;
     private int offsetMin;
     private String campaignInstanceName;

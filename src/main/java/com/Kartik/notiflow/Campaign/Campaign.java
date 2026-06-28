@@ -3,14 +3,14 @@ package com.Kartik.notiflow.Campaign;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.hibernate.annotations.CreationTimestamp;
-
 import com.Kartik.notiflow.CampaignInstance.CampaignInstance;
-import com.Kartik.notiflow.Client.Client;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,9 +36,11 @@ public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long campaignId;
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    private Client client;
+    @JoinColumn(name = "workspaceId", nullable = false)
+    private WorkspaceAuth workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy")
+    private UserAuth createdBy;
     @NotBlank(message = "Name date can't be blank")
     private String name;
     @NotBlank(message = "Description date can't be blank")

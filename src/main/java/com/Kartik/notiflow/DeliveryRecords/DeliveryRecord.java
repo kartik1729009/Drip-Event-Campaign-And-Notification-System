@@ -2,11 +2,10 @@ package com.Kartik.notiflow.DeliveryRecords;
 
 import com.Kartik.notiflow.Campaign.Campaign;
 import com.Kartik.notiflow.CampaignInstance.CampaignInstance;
-import com.Kartik.notiflow.Client.Client;
 import com.Kartik.notiflow.MessageInstance.MessageInstance;
 import com.Kartik.notiflow.Notification.Notification;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,6 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.GenerationType;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 
 @Entity
 @Getter
@@ -29,19 +30,22 @@ public class DeliveryRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long deliveryRecordId;
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    private Client client;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspaceId", nullable = false)
+    private WorkspaceAuth workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy")
+    private UserAuth createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaignId")
     private Campaign campaign;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaignInstanceId")
     private CampaignInstance campaignInstance;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "messageInstanceId")
     private MessageInstance messageInstance;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notificationId")
     private Notification notification;
     // private long notificationDefinitionId;

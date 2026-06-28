@@ -1,7 +1,9 @@
 package com.Kartik.notiflow.Notification;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,9 +16,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import com.Kartik.notiflow.Enum.Channel;
-import com.Kartik.notiflow.Client.Client;
 import com.Kartik.notiflow.Enum.DefinitionStatus;
 import com.Kartik.notiflow.MessageTemplate.MessageTemplate;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 
 @Entity
 @Table(name = "notification")
@@ -29,10 +32,12 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long notificationId;
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    private Client client; 
-    @ManyToOne
+    @JoinColumn(name = "workspaceId", nullable = false)
+    private WorkspaceAuth workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy")
+    private UserAuth createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "messageTemplateId")
     private MessageTemplate messageTemplate;
     @Enumerated(EnumType.STRING)

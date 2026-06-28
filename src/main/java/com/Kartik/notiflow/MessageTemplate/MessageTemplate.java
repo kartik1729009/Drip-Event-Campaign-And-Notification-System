@@ -1,9 +1,11 @@
 package com.Kartik.notiflow.MessageTemplate;
-import org.hibernate.annotations.CreationTimestamp;
 
-import com.Kartik.notiflow.Client.Client;
+import org.hibernate.annotations.CreationTimestamp;
+import com.Kartik.notiflow.UserAuth.UserAuth;
+import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,9 +28,11 @@ public class MessageTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long messageTemplateId;
-    @ManyToOne
-    @JoinColumn(name = "clientId")
-    private Client client;
+    @JoinColumn(name = "workspaceId", nullable = false)
+    private WorkspaceAuth workspace;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy")
+    private UserAuth createdBy;
     private String name;
     private String content;
     private String version;
@@ -36,4 +40,3 @@ public class MessageTemplate {
     @CreationTimestamp
     private String created_at;
 }
-
