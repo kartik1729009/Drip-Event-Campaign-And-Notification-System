@@ -5,7 +5,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import com.Kartik.notiflow.Common.Response.ApiResponseHandler;
 import com.Kartik.notiflow.Common.Response.ResponseBuilder;
 import com.Kartik.notiflow.Config.JwtService;
 import com.Kartik.notiflow.WorkspaceAuth.Dto.LoginRequest;
+import com.Kartik.notiflow.WorkspaceAuth.Dto.LoginResponse;
 import com.Kartik.notiflow.WorkspaceAuth.Dto.RegisterRequest;
 import com.Kartik.notiflow.WorkspaceAuth.Dto.RegisterResponse;
 import lombok.RequiredArgsConstructor;
@@ -107,34 +107,34 @@ public class WorkspaceAuthService {
         String refreshToken =
                 jwtService.generateWorkspaceRefreshToken(workspaceAuth);
 
-        ResponseCookie accessCookie =
-                ResponseCookie.from("accessToken", accessToken)
-                        .httpOnly(true)
-                        .secure(false) // true in production HTTPS
-                        .path("/")
-                        .maxAge(15 * 60)
-                        .sameSite("Strict")
-                        .build();
+        // ResponseCookie accessCookie =
+        //         ResponseCookie.from("accessToken", accessToken)
+        //                 .httpOnly(true)
+        //                 .secure(false) // true in production HTTPS
+        //                 .path("/")
+        //                 .maxAge(15 * 60)
+        //                 .sameSite("Strict")
+        //                 .build();
 
-        ResponseCookie refreshCookie =
-                ResponseCookie.from("refreshToken", refreshToken)
-                        .httpOnly(true)
-                        .secure(false) // true in production HTTPS
-                        .path("/")
-                        .maxAge(7 * 24 * 60 * 60)
-                        .sameSite("Strict")
-                        .build();
+        // ResponseCookie refreshCookie =
+        //         ResponseCookie.from("refreshToken", refreshToken)
+        //                 .httpOnly(true)
+        //                 .secure(false) // true in production HTTPS
+        //                 .path("/")
+        //                 .maxAge(7 * 24 * 60 * 60)
+        //                 .sameSite("Strict")
+        //                 .build();
 
-        ApiResponseHandler<Object> successResponse =
-                ResponseBuilder.success(
-                        HttpStatus.OK,
-                        "Login successful",
-                        null);
+                LoginResponse loginResponse =
+                        new LoginResponse(accessToken, refreshToken);
 
-        return ResponseEntity.ok()
-                .header("Set-Cookie", accessCookie.toString())
-                .header("Set-Cookie", refreshCookie.toString())
-                .body(successResponse);
+                ApiResponseHandler<Object> successResponse =
+                        ResponseBuilder.success(
+                                HttpStatus.OK,
+                                "Login successful",
+                                loginResponse);
+
+                return ResponseEntity.ok(successResponse);
 
         } catch (BadRequestException ex) {
 

@@ -26,8 +26,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserAuth {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userAuthId;
@@ -45,9 +45,11 @@ public class UserAuth {
     @Column(nullable = false)
     private Role role;
 
+    // default true — user is active on creation, admin can deactivate
     @Column(nullable = false)
     private Boolean active = true;
 
+    // many users belong to one workspace
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspace_id", nullable = false)
     private WorkspaceAuth workspace;

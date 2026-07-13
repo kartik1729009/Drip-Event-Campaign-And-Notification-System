@@ -10,9 +10,6 @@ import lombok.AllArgsConstructor;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterUserRequest {
-    private String userName;
-    private String email;
-    private String password;
-    private Role role; // only used when admin creates a user, ignored on registerAdmin
+public class UpdateRoleRequest {
+    private Role role;
 }

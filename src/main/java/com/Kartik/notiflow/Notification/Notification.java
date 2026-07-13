@@ -1,5 +1,6 @@
 package com.Kartik.notiflow.Notification;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import com.Kartik.notiflow.Enum.Channel;
 import com.Kartik.notiflow.Enum.DefinitionStatus;
@@ -27,25 +29,38 @@ import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Notification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long notificationId;
-    @JoinColumn(name = "workspaceId", nullable = false)
+    private Long notificationId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id", nullable = false)
     private WorkspaceAuth workspace;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "createdBy")
+    @JoinColumn(name = "created_by", nullable = false)
     private UserAuth createdBy;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "messageTemplateId")
+    @JoinColumn(name = "message_template_id", nullable = false)
     private MessageTemplate messageTemplate;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Channel channel;
+
+    @Column(nullable = false)
     private String name;
-    private String provider;
+
+    @Column(nullable = false)
+    private String eventType;
+
     @Enumerated(EnumType.STRING)
-    private DefinitionStatus status;
+    @Column(nullable = false)
+    private DefinitionStatus status = DefinitionStatus.ACTIVE;
+
     @CreationTimestamp
-    private String createdAt;
+    private LocalDateTime createdAt;
 }

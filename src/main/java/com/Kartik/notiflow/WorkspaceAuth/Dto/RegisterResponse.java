@@ -17,5 +17,5 @@ public class RegisterResponse {
     private String username;
     private Boolean active;
     private LocalDateTime createdAt;
-    private String Api;
+    // private String Api;
 }

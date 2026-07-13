@@ -36,17 +36,9 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/workspace/register",
-                                "/workspace/login",
-                                "/workspace/refresh")
+                        .requestMatchers("/workspaceAuth/**")
                         .permitAll()
-                        .requestMatchers(
-                                "/user/register",
-                                "/user/login",
-                                "/user/refresh")
-                        .permitAll()
-                        .requestMatchers("/client/**")
+                        .requestMatchers("/userAuth/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated());

@@ -1,13 +1,14 @@
 package com.Kartik.notiflow.MessageInstance;
 
-import com.Kartik.notiflow.Enum.Channel;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
+import com.Kartik.notiflow.Campaign.Campaign;
 import com.Kartik.notiflow.CampaignInstance.CampaignInstance;
-import com.Kartik.notiflow.Enum.DefinitionStatus;
+import com.Kartik.notiflow.Enum.Channel;
 import com.Kartik.notiflow.MessageTemplate.MessageTemplate;
 import com.Kartik.notiflow.UserAuth.UserAuth;
 import com.Kartik.notiflow.WorkspaceAuth.WorkspaceAuth;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,26 +30,42 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "messageInstance")
-
 public class MessageInstance {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long messageInstanceId;
+    private Long messageInstanceId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspaceId", nullable = false)
     private WorkspaceAuth workspace;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdBy")
     private UserAuth createdBy;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "campaignInstanceId")
+    @JoinColumn(name = "campaignId", nullable = false)
+    private Campaign campaign;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaignInstanceId", nullable = false)
     private CampaignInstance campaignInstance;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "messageTemplateId")
+    @JoinColumn(name = "messageTemplateId", nullable = false)
     private MessageTemplate messageTemplate;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Channel channel;
-    @Enumerated(EnumType.STRING)
-    private DefinitionStatus status;
+
+    @Column(nullable = false)
+    private Integer sequenceOrder;
+
+    @Column(nullable = false)
+    private Boolean active = false;
+
     @CreationTimestamp
-    private String created_at;
+    private LocalDateTime createdAt;
 }
